@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #ffffff; }
+
+/* ── Page background ────────────────────────────────────── */
+.bg-dots {
+  background-color: #ffffff;
+}
+
+/* ── Custom cursor ──────────────────────────────────────── */
+/*
+  Hotspot = die zwei Zahlen nach der URL (x y, gemessen in px vom oberen linken Rand).
+  Für einen klassischen Pfeil: 0 0 (Spitze oben links).
+  Für einen Stift/Pinsel: je nachdem wo die Spitze im Bild liegt, z.B. 4 28.
+*/
+.leaf-cursor {
+  cursor: url('/cursor-default.png') 2 2, auto;
+}
+
+/* ── Hover cursor (links, buttons, cards) ───────────────── */
+a, button {
+  cursor: url('/cursor-hover.png') 16 16, pointer;
+}
+
+/* ── Kyiv Region (local display font, installed on Darya's Mac) ── */
+@font-face {
+  font-family: 'Kyiv Region';
+  src: url('/fonts/KyivRegion-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Collection browser ───────────────────────────────────
+   One active collection's images in a horizontal row;
+   the scrollbar is hidden, arrows drive the scrolling.
+*/
+.collection-scroller {
+  scrollbar-width: none;
+}
+.collection-scroller::-webkit-scrollbar {
+  display: none;
+}
+.collection-item {
+  transition: color .2s ease;
+}
+.collection-item:hover {
+  color: #141414 !important;
+}
+.collection-arrow {
+  transition: background .2s ease, transform .15s ease;
+}
+.collection-arrow:hover {
+  background: #141414 !important;
+  color: #fff;
+}
+
+/* ── Lightbox animations ────────────────────────────────── */
+@keyframes lb-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
