@@ -109,7 +109,7 @@ export function AboutPage() {
             fontSize: 40, margin: 0, lineHeight: 1.1, letterSpacing: '-0.01em',
             color: '#141414',
           }}>
-            Hi, I&apos;m Darya,
+            Hi, I&apos;m Darya —
           </h1>
 
           <p style={{
@@ -117,13 +117,13 @@ export function AboutPage() {
             color: '#2a2a2a', maxWidth: 560, marginTop: 24,
           }}>
             nice to meet you! I&apos;m a freelance game artist and illustrator
-            from Berlin.
+            based in Berlin.
           </p>
 
           <p style={{ fontFamily: 'var(--font-dm-mono), monospace', fontSize: 14, lineHeight: 1.7, color: '#2a2a2a', maxWidth: 560, marginTop: 18 }}>
-            I&apos;m also co-founder and Art Lead of the indie game studio{' '}
-            <strong>The Roof Interactive</strong>. I also give workshops in
-            Game Art and Game Design.
+            I&apos;m co-founder and Art Lead of the indie game studio{' '}
+            <strong>The Roof Interactive</strong>, and I also teach workshops
+            in game art and game design.
           </p>
 
           {/* CV */}
@@ -134,17 +134,19 @@ export function AboutPage() {
             <CvBlock
               title="Experience"
               entries={[
-                { y: '2024 — now',  role: 'Freelance Game Art & Illustration', org: 'Self-employed, Berlin' },
-                { y: '2024 — now',  role: 'Workshop Lead, Game Design', org: 'TOMO Berlin — Lernzentrum für kreative Technologien' },
-                { y: '2024 — 2025', role: 'Workshopleitung Game Design', org: 'Stiftung Digitale Spielekultur, Projekttage Berlin' },
+                { y: '2026 — now',  role: 'Lecturer, Game Design', org: 'Design Schule Schwerin' },
+                { y: '2025 — now',  role: 'Co-founder & Art Lead', org: 'The Roof Interactive, Berlin' },
+                { y: '2024 — now',  role: 'Freelance Game Artist & Illustrator', org: 'Self-employed, Berlin' },
+                { y: '2024 — now',  role: 'Workshop Lead, Game Design', org: 'TUMO Berlin — Learning Center for Creative Technologies' },
+                { y: '2024 — 2025', role: 'Workshop Lead, Game Design', org: 'Stiftung Digitale Spielekultur (Projekttage Games Berlin-Brandenburg)' },
               ]}
             />
             <CvBlock
               title="Education"
               entries={[
-                { y: '2022 — 2025', role: 'Master, Game Design / System Design', org: 'HTW Berlin' },
+                { y: '2022 — 2025', role: 'Master, Game Design, System Design', org: 'HTW Berlin' },
                 { y: '2018 — 2022', role: 'Bachelor, Game Design', org: 'HTW Berlin' },
-                { y: '2012 — 2016', role: 'Bachelor, Fine Art', org: 'Odesa State Academy of Building and Architecture' },
+                { y: '2012 — 2016', role: 'Bachelor, Fine Art', org: 'Odesa State Academy of Civil Engineering and Architecture' },
               ]}
             />
           </div>
