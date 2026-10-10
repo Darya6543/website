@@ -29,6 +29,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('Contact form send failed:', err)
-    return NextResponse.json({ error: 'Send failed' }, { status: 500 })
+    // TEMP: surface the real error for debugging a live-only failure; revert once fixed.
+    const detail = err instanceof Error ? { message: err.message, code: (err as NodeJS.ErrnoException).code } : String(err)
+    return NextResponse.json({ error: 'Send failed', detail }, { status: 500 })
   }
 }
