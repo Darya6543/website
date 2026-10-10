@@ -18,13 +18,24 @@ body { background: #ffffff; }
   Für einen klassischen Pfeil: 0 0 (Spitze oben links).
   Für einen Stift/Pinsel: je nachdem wo die Spitze im Bild liegt, z.B. 4 28.
 */
+/*
+  Die PNGs sind 64x64 (2x-Auflösung für scharfe Darstellung auf Retina-
+  Displays), sollen aber nur mit ~32px Durchmesser angezeigt werden.
+  image-set(... 2x) sagt dem Browser genau das: "das ist eine 2x-Datei,
+  zeig sie halb so groß". Erste Zeile ist der Fallback für Browser ohne
+  image-set-Unterstützung im cursor-Property (zeigt dann die volle 64px).
+*/
 .leaf-cursor {
   cursor: url('/cursor-default.png') 4 4, auto;
+  cursor: -webkit-image-set(url('/cursor-default.png') 2x) 4 4, auto;
+  cursor: image-set(url('/cursor-default.png') 2x) 4 4, auto;
 }
 
 /* ── Hover cursor (links, buttons, cards) ───────────────── */
 a, button {
   cursor: url('/cursor-hover.png') 32 32, pointer;
+  cursor: -webkit-image-set(url('/cursor-hover.png') 2x) 32 32, pointer;
+  cursor: image-set(url('/cursor-hover.png') 2x) 32 32, pointer;
 }
 
 /* ── Kyiv Region (local display font, installed on Darya's Mac) ── */
