@@ -9,7 +9,7 @@ const BTN: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   width: 44, height: 44, borderRadius: 999,
   border: 0, background: 'rgba(255,255,255,0.15)', color: '#fff',
-  cursor: 'pointer', fontSize: 20, flexShrink: 0,
+  fontSize: 20, flexShrink: 0,
   backdropFilter: 'blur(4px)',
   transition: 'background .15s',
 }

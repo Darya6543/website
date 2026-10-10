@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { Bee } from './decorations'
 
 export function CursorFollower() {
   const ref = useRef<HTMLDivElement>(null)
@@ -50,7 +49,8 @@ export function CursorFollower() {
         willChange: 'transform',
       }}
     >
-      <Bee size={40} color="#b88a2c" rotate={-20} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bee.png" alt="" width={40} height={40} style={{ transform: 'rotate(-20deg)', display: 'block' }} />
     </div>
   )
 }

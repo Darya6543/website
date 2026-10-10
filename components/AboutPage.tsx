@@ -106,7 +106,7 @@ export function AboutPage() {
 
           <h1 style={{
             fontFamily: 'var(--font-dm-mono), monospace', fontWeight: 500,
-            fontSize: 40, margin: 0, lineHeight: 1.1, letterSpacing: '-0.01em',
+            fontSize: 24, margin: 0, lineHeight: 1.3, letterSpacing: '-0.01em',
             color: '#141414',
           }}>
             Hi, I&apos;m Darya —

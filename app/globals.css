@@ -38,6 +38,21 @@ a, button {
   cursor: image-set(url('/cursor-hover.png') 2x) 32 32, pointer;
 }
 
+/* Collection names in the sidebar stay on the plain default cursor —
+   no hover-cursor there, only on the actual gallery covers. */
+.collection-item {
+  cursor: url('/cursor-default.png') 4 4, auto;
+  cursor: -webkit-image-set(url('/cursor-default.png') 2x) 4 4, auto;
+  cursor: image-set(url('/cursor-default.png') 2x) 4 4, auto;
+}
+
+/* Gallery covers get a dedicated zoom cursor on hover. */
+.cursor-zoom-hover {
+  cursor: url('/cursor-zoom.png') 32 32, pointer;
+  cursor: -webkit-image-set(url('/cursor-zoom.png') 2x) 32 32, pointer;
+  cursor: image-set(url('/cursor-zoom.png') 2x) 32 32, pointer;
+}
+
 /* ── Kyiv Region (local display font, installed on Darya's Mac) ── */
 @font-face {
   font-family: 'Kyiv Region';

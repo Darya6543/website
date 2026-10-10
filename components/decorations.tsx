@@ -73,16 +73,6 @@ export const Bird = ({ size = 44, color = '#b88a2c', rotate = 0, style }: DecorP
   </svg>
 )
 
-export const Bee = ({ size = 30, color = '#b88a2c', rotate = 0, style }: DecorProps) => (
-  <svg width={size} height={size} viewBox="0 0 30 30"
-    style={{ transform: `rotate(${rotate}deg)`, ...style }}>
-    <ellipse cx="15" cy="18" rx="7" ry="5" fill={color} />
-    <path d="M12 14 L 12 22 M 16 13 L 16 23" stroke="#2a251f" strokeWidth="1.4" />
-    <ellipse cx="11" cy="14" rx="4" ry="3" fill="#fff" opacity="0.8" />
-    <ellipse cx="19" cy="14" rx="4" ry="3" fill="#fff" opacity="0.8" />
-  </svg>
-)
-
 export const Flower = ({ size = 36, color = '#7a2942', rotate = 0, style }: DecorProps) => (
   <svg width={size} height={size} viewBox="0 0 36 36"
     style={{ transform: `rotate(${rotate}deg)`, ...style }}>

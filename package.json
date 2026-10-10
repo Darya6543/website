@@ -10,11 +10,13 @@
   "dependencies": {
     "image-size": "^2.0.2",
     "next": "14.2.5",
+    "nodemailer": "^10.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",

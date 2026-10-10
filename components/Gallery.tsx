@@ -19,41 +19,6 @@ const ArrowIcon = ({ direction }: { direction: 'left' | 'right' }) => (
   </svg>
 )
 
-// Hand-drawn scribble frame (Darya's own asset) — sized a bit larger than
-// the card and centered, so it sits on the image but also spills past its edges.
-// The asset itself is portrait-shaped; for a landscape card it's rotated 90°
-// (not stretched) so the linework keeps its own proportions either way.
-const FRAME_OVERFLOW = 16 // px the frame extends beyond each edge
-
-const SketchFrame = ({ width, height }: { width: number; height: number }) => {
-  const landscape = width > height
-  const w = width + FRAME_OVERFLOW * 2
-  const h = height + FRAME_OVERFLOW * 2
-
-  return (
-    <img
-      src="/frame.png"
-      alt=""
-      style={
-        landscape
-          ? {
-              position: 'absolute', top: '50%', left: '50%',
-              width: h, height: w, // swapped — rotated below to land on w×h
-              maxWidth: 'none', // Tailwind preflight caps img at max-width:100% otherwise
-              transform: 'translate(-50%, -50%) rotate(90deg)',
-              pointerEvents: 'none',
-            }
-          : {
-              position: 'absolute', top: -FRAME_OVERFLOW, left: -FRAME_OVERFLOW,
-              width: w, height: h,
-              maxWidth: 'none',
-              pointerEvents: 'none',
-            }
-      }
-    />
-  )
-}
-
 const MAX_TILT = 8 // degrees — kept subtle ("minimal") rather than a full card flip
 
 function TiltCard({
@@ -68,6 +33,7 @@ function TiltCard({
   ratio?: number // present for book pages — keeps their own proportions, uncropped
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const glossRef = useRef<HTMLDivElement>(null)
   const width = ratio ? Math.round(CARD_HEIGHT * ratio) : CARD_WIDTH
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -78,7 +44,12 @@ function TiltCard({
     const py = (e.clientY - rect.top) / rect.height
     const rotateY = (px - 0.5) * 2 * MAX_TILT
     const rotateX = (0.5 - py) * 2 * MAX_TILT
-    el.style.transform = `perspective(800px) scale(1.06) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+    el.style.transform = `perspective(800px) scale(1.18) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+    // Glossy sheen follows the cursor across the cover.
+    if (glossRef.current) {
+      glossRef.current.style.background =
+        `radial-gradient(circle at ${px * 100}% ${py * 100}%, rgba(255,255,255,0.5), transparent 55%)`
+    }
   }
 
   const handleMouseLeave = () => {
@@ -86,12 +57,16 @@ function TiltCard({
     if (!el) return
     el.style.transform = 'perspective(800px) scale(1) rotateX(0deg) rotateY(0deg)'
     el.style.boxShadow = '0 0 0 rgba(0,0,0,0)'
+    el.style.zIndex = '0'
+    if (glossRef.current) glossRef.current.style.opacity = '0'
   }
 
   const handleMouseEnter = () => {
     const el = cardRef.current
     if (!el) return
-    el.style.boxShadow = '0 10px 20px rgba(0,0,0,0.22)'
+    el.style.boxShadow = '0 16px 32px rgba(0,0,0,0.28)'
+    el.style.zIndex = '2' // grow above neighboring cards instead of under them
+    if (glossRef.current) glossRef.current.style.opacity = '1'
   }
 
   return (
@@ -101,16 +76,18 @@ function TiltCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="cursor-zoom-hover"
       style={{
         position: 'relative',
+        zIndex: 0,
         height: CARD_HEIGHT,
         width,
         flexShrink: 0,
-        borderRadius: 10, cursor: 'pointer',
+        borderRadius: 10,
         background: '#efefef',
         scrollSnapAlign: 'start',
         transform: 'perspective(800px) scale(1) rotateX(0deg) rotateY(0deg)',
-        transition: 'transform 120ms ease-out, box-shadow 200ms ease-out',
+        transition: 'transform 150ms ease-out, box-shadow 200ms ease-out',
         willChange: 'transform',
       }}
     >
@@ -123,8 +100,15 @@ function TiltCard({
             objectFit: ratio ? 'contain' : 'cover',
           }}
         />
+        <div
+          ref={glossRef}
+          style={{
+            position: 'absolute', inset: 0,
+            opacity: 0, transition: 'opacity 200ms ease-out',
+            pointerEvents: 'none', mixBlendMode: 'overlay',
+          }}
+        />
       </div>
-      <SketchFrame width={width} height={CARD_HEIGHT} />
     </div>
   )
 }
@@ -175,12 +159,11 @@ function CollectionRow({
         style={{
           display: 'flex', gap: 32, overflowX: 'auto',
           // overflowX:auto forces overflowY to clip too, so this still has to
-          // fully contain the hover card's scale-up + shadow — just tighter
-          // now that the shadow itself (below) is smaller.
-          padding: '24px 48px 42px 48px',
+          // fully contain the (now bigger) hover scale-up + shadow.
+          padding: '56px 90px 90px 90px',
           scrollSnapType: 'x mandatory',
-          scrollPaddingLeft: 48,
-          scrollPaddingRight: 48,
+          scrollPaddingLeft: 90,
+          scrollPaddingRight: 90,
         }}
       >
         {project.images.map((img, i) => (
@@ -220,13 +203,13 @@ function CollectionRow({
 }
 
 const ARROW_BASE: React.CSSProperties = {
-  // Row padding is asymmetric (top 24 / bottom 42, to fit the hover shadow),
+  // Row padding is asymmetric (top 56 / bottom 90, to fit the hover shadow),
   // so the true card center sits above the box's own 50% mark.
-  position: 'absolute', top: 'calc(50% - 9px)', transform: 'translateY(-50%)',
+  position: 'absolute', top: 'calc(50% - 17px)', transform: 'translateY(-50%)',
   width: 44, height: 44, borderRadius: '50%',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   background: '#fff', border: '1px solid #141414', color: '#141414',
-  cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
 }
 const ARROW_STYLE_LEFT: React.CSSProperties = { ...ARROW_BASE, left: 4 }
 const ARROW_STYLE_RIGHT: React.CSSProperties = { ...ARROW_BASE, right: 4 }
@@ -349,7 +332,7 @@ export function Gallery({ projects }: { projects: Project[] }) {
                   className="collection-item"
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
-                    background: 'none', border: 0, cursor: 'pointer',
+                    background: 'none', border: 0,
                     padding: '4px 0', textAlign: 'left',
                     fontFamily: "'Kyiv Region', serif", fontSize: 18,
                     color: isActive ? '#141414' : '#c7c7c7',

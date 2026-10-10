@@ -25,7 +25,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           color: '#8a8a8a', letterSpacing: '0.1em',
         }}>
           <div>© {year} · Darya Goloborodko</div>
-          <div style={{ marginTop: 6 }}>made with care, in Berlin</div>
           <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 18 }}>
             <Link href="/impressum" style={{ color: '#8a8a8a', textDecoration: 'none' }}>Impressum</Link>
             <Link href="/datenschutz" style={{ color: '#8a8a8a', textDecoration: 'none' }}>Datenschutz</Link>

@@ -25,12 +25,13 @@ export function DatenschutzPage() {
 
       <LegalHeading>3. Kontaktformular</LegalHeading>
       <LegalP>
-        Die Kontaktseite dieser Website öffnet beim Absenden das E-Mail-Programm des Besuchers
-        (mailto-Link) mit vorausgefülltem Namen und Nachricht. Die eingegebenen Daten werden dabei
-        nicht auf einem Server dieser Website gespeichert oder verarbeitet, sondern ausschließlich
-        über das eigene E-Mail-Programm des Besuchers direkt an{' '}
-        dashagoloborodko@gmail.com versendet. Die Verarbeitung der so erhaltenen Nachrichten erfolgt
-        zur Beantwortung der Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b bzw. f DSGVO.
+        Wenn Sie das Kontaktformular nutzen, werden die von Ihnen eingegebenen Daten (Name,
+        E-Mail-Adresse, Nachricht) über einen Server dieser Website direkt per E-Mail an das
+        Postfach contact@darya-goloborodko.com (gehostet bei STRATO AG, Pascalstraße 10,
+        10587 Berlin) übermittelt. Eine darüber hinausgehende Speicherung der Formulardaten auf
+        dem Webserver erfolgt nicht. Die Verarbeitung erfolgt zur Beantwortung Ihrer Anfrage auf
+        Grundlage von Art. 6 Abs. 1 lit. b bzw. f DSGVO (vorvertragliche Maßnahme bzw.
+        berechtigtes Interesse an der Kommunikation mit Anfragenden).
       </LegalP>
 
       <LegalHeading>4. Cookies &amp; Tracking</LegalHeading>
