@@ -19,12 +19,12 @@ body { background: #ffffff; }
   Für einen Stift/Pinsel: je nachdem wo die Spitze im Bild liegt, z.B. 4 28.
 */
 .leaf-cursor {
-  cursor: url('/cursor-default.png') 2 2, auto;
+  cursor: url('/cursor-default.png') 4 4, auto;
 }
 
 /* ── Hover cursor (links, buttons, cards) ───────────────── */
 a, button {
-  cursor: url('/cursor-hover.png') 16 16, pointer;
+  cursor: url('/cursor-hover.png') 32 32, pointer;
 }
 
 /* ── Kyiv Region (local display font, installed on Darya's Mac) ── */
