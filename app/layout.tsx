@@ -13,7 +13,7 @@ const SITE_URL = 'https://darya-goloborodko.com'
 const SITE_TITLE = 'Darya Goloborodko — Game Art & Illustration'
 const SITE_DESCRIPTION =
   'Portfolio of Darya Goloborodko, freelance game artist and illustrator based in Berlin. ' +
-  'Co-founder and Art Lead of the indie game studio The Roof Interactive.'
+  'Co-founder and Art Lead of the indie game studio THE ROOF Interactive.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   authors: [{ name: 'Darya Goloborodko' }],
-  keywords: ['Darya Goloborodko', 'game art', 'illustration', 'game artist', 'illustrator', 'Berlin', 'The Roof Interactive'],
+  keywords: ['Darya Goloborodko', 'game art', 'illustration', 'game artist', 'illustrator', 'Berlin', 'THE ROOF Interactive'],
   alternates: { canonical: '/' },
   // Link previews (WhatsApp, iMessage, LinkedIn, Facebook, …)
   openGraph: {

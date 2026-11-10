@@ -97,7 +97,7 @@ export function AboutPage() {
 
           <p style={{ fontFamily: 'var(--font-dm-mono), monospace', fontSize: 14, lineHeight: 1.7, color: '#2a2a2a', maxWidth: 560, marginTop: 18 }}>
             I&apos;m co-founder and Art Lead of the indie game studio{' '}
-            <strong>The Roof Interactive</strong>, and I also teach workshops
+            <strong>THE ROOF Interactive</strong>, and I also teach workshops
             in game art and game design.
           </p>
 
@@ -110,7 +110,7 @@ export function AboutPage() {
               title="Experience"
               entries={[
                 { y: '2026 — now',  role: 'Lecturer, Game Design', org: 'Design Schule Schwerin' },
-                { y: '2025 — now',  role: 'Co-founder & Art Lead', org: 'The Roof Interactive, Berlin' },
+                { y: '2025 — now',  role: 'Co-founder & Art Lead', org: 'THE ROOF Interactive, Berlin' },
                 { y: '2024 — now',  role: 'Freelance Game Artist & Illustrator', org: 'Self-employed, Berlin' },
                 { y: '2024 — now',  role: 'Workshop Lead, Game Design', org: 'TUMO Berlin — Learning Center for Creative Technologies' },
                 { y: '2024 — 2025', role: 'Workshop Lead, Game Design', org: 'Stiftung Digitale Spielekultur (Projekttage Games Berlin-Brandenburg)' },
