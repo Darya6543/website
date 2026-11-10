@@ -1,4 +1,5 @@
 import { LegalPage, LegalHeading, LegalP } from './LegalPage'
+import { Protected } from './Protected'
 
 export function DatenschutzPage() {
   return (
@@ -6,10 +7,8 @@ export function DatenschutzPage() {
       <LegalHeading>1. Verantwortliche Stelle</LegalHeading>
       <LegalP>
         Darya Goloborodko<br />
-        Spreestraße 22<br />
-        12439 Berlin<br />
-        E-Mail: dashagoloborodko@gmail.com<br />
-        Telefon: +49 178 1618786
+        <Protected label="Klicken, um die Adresse anzuzeigen" text={'Spreestraße 22\n12439 Berlin'} /><br />
+        E-Mail: <Protected label="Klicken, um die E-Mail anzuzeigen" text={'contact [at] darya-goloborodko.com'} />
       </LegalP>
 
       <LegalHeading>2. Hosting</LegalHeading>
@@ -27,7 +26,7 @@ export function DatenschutzPage() {
       <LegalP>
         Wenn Sie das Kontaktformular nutzen, werden die von Ihnen eingegebenen Daten (Name,
         E-Mail-Adresse, Nachricht) über einen Server dieser Website direkt per E-Mail an das
-        Postfach contact@darya-goloborodko.com (gehostet bei STRATO AG, Pascalstraße 10,
+        Postfach contact [at] darya-goloborodko.com (gehostet bei STRATO AG, Pascalstraße 10,
         10587 Berlin) übermittelt. Eine darüber hinausgehende Speicherung der Formulardaten auf
         dem Webserver erfolgt nicht. Die Verarbeitung erfolgt zur Beantwortung Ihrer Anfrage auf
         Grundlage von Art. 6 Abs. 1 lit. b bzw. f DSGVO (vorvertragliche Maßnahme bzw.

@@ -18,7 +18,7 @@ export function LegalP({ children }: { children: React.ReactNode }) {
 
 export function LegalPage({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ padding: '60px 24px 100px', maxWidth: 680, margin: '0 auto' }}>
+    <div className="page-pad" style={{ padding: '60px 24px 100px', maxWidth: 680, margin: '0 auto' }}>
       <h1 style={{
         fontFamily: 'var(--font-dm-mono), monospace', fontWeight: 500,
         fontSize: 32, margin: 0, lineHeight: 1.1, letterSpacing: '-0.01em',

@@ -40,6 +40,7 @@ export function CursorFollower() {
   return (
     <div
       ref={ref}
+      className="cursor-follower"
       style={{
         position: 'fixed',
         top: 0,

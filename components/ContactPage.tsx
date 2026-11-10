@@ -42,7 +42,7 @@ export function ContactPage() {
   }
 
   return (
-    <div style={{ padding: '60px 24px 100px', maxWidth: 640, margin: '0 auto' }}>
+    <div className="page-pad" style={{ padding: '60px 24px 100px', maxWidth: 640, margin: '0 auto' }}>
       <div style={{
         fontFamily: 'var(--font-dm-mono), monospace', fontSize: 11,
         letterSpacing: '0.24em', textTransform: 'uppercase',

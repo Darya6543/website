@@ -32,10 +32,12 @@ body { background: #ffffff; }
 }
 
 /* ── Hover cursor (links, buttons, cards) ───────────────── */
+/* Same 4 4 hotspot as the default cursor, so the icon swaps in place
+   instead of jumping when you hover something. */
 a, button {
-  cursor: url('/cursor-hover.png') 32 32, pointer;
-  cursor: -webkit-image-set(url('/cursor-hover.png') 2x) 32 32, pointer;
-  cursor: image-set(url('/cursor-hover.png') 2x) 32 32, pointer;
+  cursor: url('/cursor-hover.png') 4 4, pointer;
+  cursor: -webkit-image-set(url('/cursor-hover.png') 2x) 4 4, pointer;
+  cursor: image-set(url('/cursor-hover.png') 2x) 4 4, pointer;
 }
 
 /* Collection names in the sidebar stay on the plain default cursor —
@@ -48,9 +50,9 @@ a, button {
 
 /* Gallery covers get a dedicated zoom cursor on hover. */
 .cursor-zoom-hover {
-  cursor: url('/cursor-zoom.png') 32 32, pointer;
-  cursor: -webkit-image-set(url('/cursor-zoom.png') 2x) 32 32, pointer;
-  cursor: image-set(url('/cursor-zoom.png') 2x) 32 32, pointer;
+  cursor: url('/cursor-zoom.png') 4 4, pointer;
+  cursor: -webkit-image-set(url('/cursor-zoom.png') 2x) 4 4, pointer;
+  cursor: image-set(url('/cursor-zoom.png') 2x) 4 4, pointer;
 }
 
 /* ── Kyiv Region (local display font, installed on Darya's Mac) ── */
@@ -90,4 +92,99 @@ a, button {
 @keyframes lb-fade {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* ── Mobile title above each collection (desktop: hidden) ── */
+.collection-title {
+  display: none;
+}
+
+/* ── Touch screens: no mouse, so no custom cursor bee ───── */
+@media (hover: none) {
+  .cursor-follower { display: none; }
+}
+
+/* ── Narrow screens (phones) ────────────────────────────────
+   Most layout lives in inline styles, so overrides here need
+   !important to win over them.
+*/
+@media (max-width: 768px) {
+  /* Header: smaller name, menu fits on one line */
+  .site-header { padding: 28px 16px 16px !important; }
+  .site-title { font-size: 32px !important; }
+  .site-nav { gap: 20px !important; margin-top: 16px !important; }
+  /* Same spot as on the About page on phones (its padding: 36px 16px) */
+  .gallery-social {
+    position: static !important;
+    padding: 36px 16px 0 !important;
+  }
+
+  /* Gallery: no sidebar — each collection gets its name on top,
+     its images swipe sideways, and the collections scroll down. */
+  .collection-sidebar { display: none !important; }
+  .collection-rows { margin-left: 0 !important; }
+  .collection-title {
+    display: block;
+    font-family: 'Kyiv Region', serif; font-weight: 400;
+    font-size: 24px; line-height: 1.2; color: #141414;
+    margin: 36px 16px 16px;
+  }
+  .collection-scroller {
+    gap: 12px !important;
+    padding: 0 16px 8px !important;
+    scroll-padding-left: 16px !important;
+    scroll-padding-right: 16px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Swiping replaces the arrows */
+  .collection-arrow { display: none !important; }
+  /* Cards fill most of the screen width so the next one peeks in at
+     the edge — a hint that there's more to swipe. Wide book spreads
+     get a lower height instead, so they're never squeezed. */
+  .tilt-card {
+    --card-h: min(96vw, 60vh, calc(84vw / var(--card-ratio)));
+    height: var(--card-h) !important;
+    width: calc(var(--card-h) * var(--card-ratio)) !important;
+  }
+
+  /* Text pages */
+  .page-pad { padding: 36px 16px 64px !important; }
+  .about-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .about-photo-col { max-width: 360px; }
+  .cv-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Lightbox: prev/next move below the image instead of covering it */
+  .lb-prev, .lb-next { top: auto !important; bottom: 24px !important; transform: none !important; }
+  .lb-prev { left: calc(50% - 56px) !important; }
+  .lb-next { right: calc(50% - 56px) !important; }
+  .lb-book-arrow { width: 34px !important; height: 34px !important; }
+  .lb-book-arrow:first-of-type { left: 6px !important; }
+  .lb-book-arrow:last-of-type { right: 6px !important; }
+}
+
+/* ── Lightbox: white cursors on the dark background ─────── */
+.lb-root {
+  cursor: url('/cursor-default-light.png') 4 4, auto;
+  cursor: -webkit-image-set(url('/cursor-default-light.png') 2x) 4 4, auto;
+  cursor: image-set(url('/cursor-default-light.png') 2x) 4 4, auto;
+}
+.lb-root button,
+.lb-root .lb-page-turn {
+  cursor: url('/cursor-hover-light.png') 4 4, pointer;
+  cursor: -webkit-image-set(url('/cursor-hover-light.png') 2x) 4 4, pointer;
+  cursor: image-set(url('/cursor-hover-light.png') 2x) 4 4, pointer;
+}
+
+/* Lightbox buttons: white outline circle, white icon — filled on hover */
+.lb-btn {
+  transition: background .15s ease, color .15s ease;
+}
+.lb-btn:hover {
+  background: #fff !important;
+  color: #141414 !important;
+}
+
+/* No cursor bee while the lightbox is open */
+body:has(.lb-root) .cursor-follower {
+  display: none;
 }

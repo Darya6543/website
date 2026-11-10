@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Project } from '@/lib/getProjects'
 import { ProjectLightbox } from './ProjectLightbox'
+import { SocialLinks } from './SocialIcons'
 
 // Every image preview uses this exact box, regardless of the source image's
 // own aspect ratio — object-fit: cover zooms/crops it in to fill the box.
-// Book pages are the exception (see TiltCard): original proportions, uncropped.
+// Book pages are the exception (see ImageCard): original proportions, uncropped.
 const CARD_WIDTH = 280
 const CARD_HEIGHT = 360
 
@@ -19,9 +20,11 @@ const ArrowIcon = ({ direction }: { direction: 'left' | 'right' }) => (
   </svg>
 )
 
-const MAX_TILT = 8 // degrees — kept subtle ("minimal") rather than a full card flip
+// Touch screens fire mouseenter on tap, which would leave the card stuck
+// scaled up — the hover zoom is for real mouse pointers only.
+const canHover = () => window.matchMedia('(hover: hover)').matches
 
-function TiltCard({
+function ImageCard({
   src,
   alt,
   onClick,
@@ -33,51 +36,34 @@ function TiltCard({
   ratio?: number // present for book pages — keeps their own proportions, uncropped
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const glossRef = useRef<HTMLDivElement>(null)
   const width = ratio ? Math.round(CARD_HEIGHT * ratio) : CARD_WIDTH
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = () => {
     const el = cardRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const px = (e.clientX - rect.left) / rect.width
-    const py = (e.clientY - rect.top) / rect.height
-    const rotateY = (px - 0.5) * 2 * MAX_TILT
-    const rotateX = (0.5 - py) * 2 * MAX_TILT
-    el.style.transform = `perspective(800px) scale(1.18) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-    // Glossy sheen follows the cursor across the cover.
-    if (glossRef.current) {
-      glossRef.current.style.background =
-        `radial-gradient(circle at ${px * 100}% ${py * 100}%, rgba(255,255,255,0.5), transparent 55%)`
-    }
+    if (!el || !canHover()) return
+    el.style.transform = 'scale(1.18)'
+    el.style.boxShadow = '0 16px 32px rgba(0,0,0,0.28)'
+    el.style.zIndex = '2' // grow above neighboring cards instead of under them
   }
 
   const handleMouseLeave = () => {
     const el = cardRef.current
     if (!el) return
-    el.style.transform = 'perspective(800px) scale(1) rotateX(0deg) rotateY(0deg)'
+    el.style.transform = 'scale(1)'
     el.style.boxShadow = '0 0 0 rgba(0,0,0,0)'
     el.style.zIndex = '0'
-    if (glossRef.current) glossRef.current.style.opacity = '0'
-  }
-
-  const handleMouseEnter = () => {
-    const el = cardRef.current
-    if (!el) return
-    el.style.boxShadow = '0 16px 32px rgba(0,0,0,0.28)'
-    el.style.zIndex = '2' // grow above neighboring cards instead of under them
-    if (glossRef.current) glossRef.current.style.opacity = '1'
   }
 
   return (
     <div
       ref={cardRef}
       onClick={onClick}
-      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="cursor-zoom-hover"
+      className="cursor-zoom-hover tilt-card"
       style={{
+        // Used by the mobile layout (globals.css), where cards are sized by screen.
+        ['--card-ratio' as string]: ratio ?? CARD_WIDTH / CARD_HEIGHT,
         position: 'relative',
         zIndex: 0,
         height: CARD_HEIGHT,
@@ -86,8 +72,8 @@ function TiltCard({
         borderRadius: 10,
         background: '#efefef',
         scrollSnapAlign: 'start',
-        transform: 'perspective(800px) scale(1) rotateX(0deg) rotateY(0deg)',
-        transition: 'transform 150ms ease-out, box-shadow 200ms ease-out',
+        transform: 'scale(1)',
+        transition: 'transform 200ms ease-out, box-shadow 200ms ease-out',
         willChange: 'transform',
       }}
     >
@@ -98,14 +84,6 @@ function TiltCard({
           style={{
             width: '100%', height: '100%', display: 'block', pointerEvents: 'none',
             objectFit: ratio ? 'contain' : 'cover',
-          }}
-        />
-        <div
-          ref={glossRef}
-          style={{
-            position: 'absolute', inset: 0,
-            opacity: 0, transition: 'opacity 200ms ease-out',
-            pointerEvents: 'none', mixBlendMode: 'overlay',
           }}
         />
       </div>
@@ -152,6 +130,9 @@ function CollectionRow({
       data-project-id={project.id}
       style={{ position: 'relative', padding: '4px 0' }}
     >
+      {/* Only shown on narrow screens, where the sidebar is hidden. */}
+      <h2 className="collection-title">{project.title}</h2>
+
       <div
         ref={scrollerRef}
         onScroll={updateArrows}
@@ -167,7 +148,7 @@ function CollectionRow({
         }}
       >
         {project.images.map((img, i) => (
-          <TiltCard
+          <ImageCard
             key={i}
             src={img.cover ?? img.src}
             alt={`${project.title} — image ${i + 1}`}
@@ -302,10 +283,29 @@ export function Gallery({ projects }: { projects: Project[] }) {
 
   return (
     <>
-      <section>
+      <section style={{ position: 'relative' }}>
+        {/* Social links — mirrors the About page's content box (1040px wide,
+            centered, 60px/24px padding) so the icons sit in exactly the same
+            spot, size and spacing as they do there. */}
+        <div
+          className="gallery-social"
+          style={{
+            position: 'absolute', top: 0, left: 0, right: 0, zIndex: 3,
+            maxWidth: 1040, margin: '0 auto', padding: '60px 24px 0',
+            pointerEvents: 'none',
+          }}
+        >
+          <SocialLinks
+            networks={['instagram', 'tiktok']}
+            gap={8}
+            style={{ marginLeft: -8, width: 'fit-content', pointerEvents: 'auto' }}
+          />
+        </div>
+
         {/* ── Left: collection list, fixed in place from the start ─ */}
         <div
           ref={sidebarContainerRef}
+          className="collection-sidebar"
           style={{
             width: 240,
             position: 'fixed', top: 0, height: '100vh',
@@ -313,6 +313,9 @@ export function Gallery({ projects }: { projects: Project[] }) {
             // raw viewport edge, so it lines up with the rows on wide screens.
             left: 'max(0px, calc(50vw - 640px))',
             overflow: 'hidden', zIndex: 2,
+            // Only the names themselves are clickable — the empty rest of
+            // this full-height strip mustn't block clicks on what's below.
+            pointerEvents: 'none',
           }}
         >
           <div
@@ -331,6 +334,7 @@ export function Gallery({ projects }: { projects: Project[] }) {
                   onClick={() => selectCollection(p.id)}
                   className="collection-item"
                   style={{
+                    pointerEvents: 'auto',
                     display: 'flex', alignItems: 'center', gap: 10,
                     background: 'none', border: 0,
                     padding: '4px 0', textAlign: 'left',
@@ -353,7 +357,7 @@ export function Gallery({ projects }: { projects: Project[] }) {
         </div>
 
         {/* ── Right: one scrollable row per collection ─────────── */}
-        <div style={{ marginLeft: 240, minWidth: 0 }}>
+        <div className="collection-rows" style={{ marginLeft: 240, minWidth: 0 }}>
           {projects.map((p) => (
             <CollectionRow
               key={p.id}

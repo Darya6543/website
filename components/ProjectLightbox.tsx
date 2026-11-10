@@ -5,14 +5,29 @@ import type { ImageItem, Project } from '@/lib/getProjects'
 
 const FLIP_DURATION_MS = 650
 
+// White outline circle with a white icon in the middle. The faint dark fill
+// keeps it readable when it sits on top of a light image (book pages).
 const BTN: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center',
-  width: 44, height: 44, borderRadius: 999,
-  border: 0, background: 'rgba(255,255,255,0.15)', color: '#fff',
-  fontSize: 20, flexShrink: 0,
-  backdropFilter: 'blur(4px)',
-  transition: 'background .15s',
+  width: 44, height: 44, borderRadius: 999, padding: 0,
+  border: '1.5px solid #fff', background: 'rgba(20,20,20,0.3)', color: '#fff',
+  flexShrink: 0,
 }
+
+const ArrowIcon = ({ direction }: { direction: 'left' | 'right' }) => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path
+      d={direction === 'right' ? 'M3 9h12M10 4l5 5-5 5' : 'M15 9H3M8 4L3 9l5 5'}
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const CloseIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
 
 function Page({ img, side }: { img?: ImageItem; side: 'left' | 'right' }) {
   return (
@@ -132,6 +147,7 @@ function BookView({
   return (
     <div
       onClick={onClose}
+      className="lb-root"
       style={{
         position: 'fixed', inset: 0, zIndex: 2000,
         background: 'rgba(10,10,10,0.95)',
@@ -141,27 +157,27 @@ function BookView({
     >
       <button
         onClick={(e) => { e.stopPropagation(); onClose() }}
-        style={{ ...BTN, position: 'absolute', top: 20, right: 20, fontSize: 22 }}
+        className="lb-btn"
+        aria-label="close"
+        style={{ ...BTN, position: 'absolute', top: 20, right: 20 }}
       >
-        ×
-      </button>
-
-      <button
-        onClick={(e) => { e.stopPropagation(); goTo(-1) }}
-        style={{
-          ...BTN,
-          position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
-          visibility: spreadIndex > 0 ? 'visible' : 'hidden',
-        }}
-      >
-        ←
+        <CloseIcon />
       </button>
 
       <div
         onClick={(e) => e.stopPropagation()}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '92vw' }}
       >
+        {/* Wrapper so the arrows can sit on top of the book — outside its
+            overflow/perspective box, so the turning leaf never covers them. */}
+        <div style={{ position: 'relative' }}>
         <div
+          // Click the right half to turn forward, the left half to turn back.
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            goTo(e.clientX - rect.left > rect.width / 2 ? 1 : -1)
+          }}
+          className="lb-page-turn"
           style={{
             position: 'relative',
             width: `min(92vw, 78vh * ${spreadAspect})`,
@@ -216,6 +232,32 @@ function BookView({
           })()}
         </div>
 
+          <button
+            onClick={() => goTo(-1)}
+            className="lb-btn lb-book-arrow"
+            aria-label="previous pages"
+            style={{
+              ...BTN,
+              position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', zIndex: 5,
+              visibility: spreadIndex > 0 ? 'visible' : 'hidden',
+            }}
+          >
+            <ArrowIcon direction="left" />
+          </button>
+          <button
+            onClick={() => goTo(1)}
+            className="lb-btn lb-book-arrow"
+            aria-label="next pages"
+            style={{
+              ...BTN,
+              position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', zIndex: 5,
+              visibility: spreadIndex < total - 1 ? 'visible' : 'hidden',
+            }}
+          >
+            <ArrowIcon direction="right" />
+          </button>
+        </div>
+
         <div style={{ marginTop: 18, textAlign: 'center' }}>
           <div style={{ fontFamily: "'Kyiv Region', serif", fontSize: 20, color: 'rgba(255,255,255,0.92)' }}>
             {project.title}
@@ -229,16 +271,6 @@ function BookView({
         </div>
       </div>
 
-      <button
-        onClick={(e) => { e.stopPropagation(); goTo(1) }}
-        style={{
-          ...BTN,
-          position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',
-          visibility: spreadIndex < total - 1 ? 'visible' : 'hidden',
-        }}
-      >
-        →
-      </button>
     </div>
   )
 }
@@ -290,6 +322,7 @@ function SingleImageView({
   return (
     <div
       onClick={onClose}
+      className="lb-root"
       style={{
         position: 'fixed', inset: 0, zIndex: 2000,
         background: 'rgba(10,10,10,0.95)',
@@ -300,21 +333,25 @@ function SingleImageView({
       {/* × close */}
       <button
         onClick={(e) => { e.stopPropagation(); onClose() }}
-        style={{ ...BTN, position: 'absolute', top: 20, right: 20, fontSize: 22 }}
+        className="lb-btn"
+        aria-label="close"
+        style={{ ...BTN, position: 'absolute', top: 20, right: 20 }}
       >
-        ×
+        <CloseIcon />
       </button>
 
       {/* Left arrow */}
       <button
         onClick={(e) => { e.stopPropagation(); setIdx(idx - 1) }}
+        className="lb-btn lb-prev"
+        aria-label="previous image"
         style={{
           ...BTN,
           position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
           visibility: idx > 0 ? 'visible' : 'hidden',
         }}
       >
-        ←
+        <ArrowIcon direction="left" />
       </button>
 
       {/* Image + caption */}
@@ -328,7 +365,7 @@ function SingleImageView({
           style={{
             maxWidth: '90vw', maxHeight: '78vh',
             objectFit: 'contain', borderRadius: 4,
-            display: 'block', cursor: 'default',
+            display: 'block',
           }}
         />
         <figcaption style={{ marginTop: 18, textAlign: 'center' }}>
@@ -347,13 +384,15 @@ function SingleImageView({
       {/* Right arrow */}
       <button
         onClick={(e) => { e.stopPropagation(); setIdx(idx + 1) }}
+        className="lb-btn lb-next"
+        aria-label="next image"
         style={{
           ...BTN,
           position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',
           visibility: idx < total - 1 ? 'visible' : 'hidden',
         }}
       >
-        →
+        <ArrowIcon direction="right" />
       </button>
     </div>
   )

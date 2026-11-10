@@ -1,4 +1,6 @@
 import { LegalPage, LegalHeading, LegalP } from './LegalPage'
+import Link from 'next/link'
+import { Protected } from './Protected'
 
 export function ImpressumPage() {
   return (
@@ -6,15 +8,13 @@ export function ImpressumPage() {
       <LegalHeading>Angaben gemäß § 5 DDG</LegalHeading>
       <LegalP>
         Darya Goloborodko<br />
-        Spreestraße 22<br />
-        12439 Berlin<br />
-        Deutschland
+        <Protected label="Klicken, um die Adresse anzuzeigen" text={'Spreestraße 22\n12439 Berlin\nDeutschland'} />
       </LegalP>
 
       <LegalHeading>Kontakt</LegalHeading>
       <LegalP>
-        Telefon: +49 178 1618786<br />
-        E-Mail: dashagoloborodko@gmail.com
+        E-Mail: <Protected label="Klicken, um die E-Mail anzuzeigen" text={'contact [at] darya-goloborodko.com'} /><br />
+        oder über das <Link href="/contact" style={{ color: '#141414', textDecoration: 'underline', textUnderlineOffset: 3 }}>Kontaktformular</Link>
       </LegalP>
 
       <LegalHeading>Umsatzsteuer</LegalHeading>

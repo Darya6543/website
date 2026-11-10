@@ -1,21 +1,4 @@
-const ICON_SIZE = 28
-
-const InstagramIcon = () => (
-  <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="3" y="3" width="18" height="18" rx="5" />
-    <circle cx="12" cy="12" r="4.2" />
-    <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" />
-  </svg>
-)
-
-const LinkedInIcon = () => (
-  <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="3" y="3" width="18" height="18" rx="3" />
-    <line x1="7.5" y1="10" x2="7.5" y2="17" />
-    <circle cx="7.5" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
-    <path d="M11.5 17v-4.2c0-1.7 1-2.8 2.5-2.8s2.5 1 2.5 2.8V17" />
-  </svg>
-)
+import { SocialLinks } from './SocialIcons'
 
 const CvBlock = ({
   title,
@@ -59,24 +42,16 @@ const CvBlock = ({
 
 export function AboutPage() {
   return (
-    <div style={{ padding: '60px 24px 80px', position: 'relative', maxWidth: 1040, margin: '0 auto' }}>
-      <div style={{
+    <div className="page-pad" style={{ padding: '60px 24px 80px', position: 'relative', maxWidth: 1040, margin: '0 auto' }}>
+      <div className="about-grid" style={{
         display: 'grid', gridTemplateColumns: '360px 1fr', gap: 60,
         alignItems: 'start',
       }}>
 
         {/* ── Left column ─────────────────────────────────── */}
-        <div>
+        <div className="about-photo-col">
           {/* Social links */}
-          <div style={{ display: 'flex', gap: 16, marginBottom: 18, marginLeft: -8 }}>
-            {/* TODO: replace # with the real profile URLs */}
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ color: '#141414' }}>
-              <InstagramIcon />
-            </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: '#141414' }}>
-              <LinkedInIcon />
-            </a>
-          </div>
+          <SocialLinks networks={['instagram', 'tiktok', 'linkedin']} gap={8} style={{ marginBottom: 18, marginLeft: -8 }} />
 
           {/* Photo frame */}
           <div style={{
@@ -113,7 +88,7 @@ export function AboutPage() {
           </h1>
 
           <p style={{
-            fontFamily: 'var(--font-dm-mono), monospace', fontSize: 16, lineHeight: 1.6,
+            fontFamily: 'var(--font-dm-mono), monospace', fontSize: 14, lineHeight: 1.7,
             color: '#2a2a2a', maxWidth: 560, marginTop: 24,
           }}>
             nice to meet you! I&apos;m a freelance game artist and illustrator
@@ -127,7 +102,7 @@ export function AboutPage() {
           </p>
 
           {/* CV */}
-          <div style={{
+          <div className="cv-grid" style={{
             marginTop: 40,
             display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40,
           }}>
